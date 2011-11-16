@@ -34,6 +34,7 @@ public class videoPlayback {
             //Thread.sleep(500000);
             playSoundThread.join();
             playVideoThread.join();
+            System.out.println("Main exiting..");
         } catch (InterruptedException e) {
         }
     }
