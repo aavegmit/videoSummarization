@@ -24,7 +24,7 @@ public class PlayVideoFile implements Runnable {
 
     public int SecofPlay;
     public String videoFileName;
-    
+
     public PlayVideoFile(int seconds) {
         this.SecofPlay = seconds;
     }
@@ -40,30 +40,32 @@ public class PlayVideoFile implements Runnable {
         System.out.println("PlayVideoFile Thread created RUN....");
         int Height = 240, Width = 320;
         BufferedImage Bimage = new BufferedImage(Width, Height, BufferedImage.TYPE_INT_RGB);
-        
+
         ImageIcon ic = new ImageIcon(Bimage);
         JLabel label = new JLabel(ic);
-        
+
         byte r_pix[] = new byte[Height * Width];
         byte g_pix[] = new byte[Height * Width];
         byte b_pix[] = new byte[Height * Width];
-        
+
         try {
 
             File file = new File(this.videoFileName);
-            long numFrames = file.length()/(Height*Width*3);
+            long numFrames = file.length() / (Height * Width * 3);
             //System.out.println("File Lenght: "+file.length()+"Number of frames is :" + numFrames);
             FileInputStream fis = new FileInputStream(file);
-            
+
             int icount, jcount;
 
             JFrame f = new JFrame("576_Final_Project_Aaveg_Manu");
             f.setSize(320, 240);
 
             f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            
-            for (int k = 0; k < numFrames ; k++) {
 
+            for (int k = 0; k < numFrames; k++) {
+                
+                long time = System.nanoTime();
+                
                 fis.read(r_pix, 0, Height * Width);
                 fis.read(g_pix, 0, Height * Width);
                 fis.read(b_pix, 0, Height * Width);
@@ -73,17 +75,21 @@ public class PlayVideoFile implements Runnable {
                         Bimage.setRGB(jcount, icount, pix);
                     }
                 }
-                //System.out.println("In here..");
-                //ic.setImage(Bimage);
-                //ic = new ImageIcon(Bimage);
-                //label = new JLabel(ic);
-                //label.setIcon(ic);
                 f.add(label, BorderLayout.CENTER);
                 f.pack();
-                //f.setLocationRelativeTo(null);
                 f.setVisible(true);
                 label.repaint();
-                Thread.currentThread().sleep(25, 0);
+                time = System.nanoTime() - time;
+                long miliTime = time/1000000;
+                int nanoTime = (int)time%1000000;
+                miliTime = 41 - miliTime;
+                nanoTime = 666667 - nanoTime;
+                if(miliTime < 0 )
+                    miliTime = 0;
+                if(nanoTime < 0)
+                    nanoTime = 0;
+                System.out.println("This much time it takes: "+ time +"miliTime: "+miliTime+"nanoTime: "+nanoTime);
+                Thread.currentThread().sleep(miliTime, nanoTime);
             }
 
         } catch (InterruptedException ex) {
@@ -93,6 +99,6 @@ public class PlayVideoFile implements Runnable {
         } catch (IOException ioe) {
             System.err.println("IOException: " + ioe.getMessage());
         }
-
+        System.out.println("Video Thread Exiting...");
     }
 }
