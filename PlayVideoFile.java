@@ -24,6 +24,7 @@ public class PlayVideoFile implements Runnable {
 
     public int SecofPlay;
     public String videoFileName;
+    static boolean videoStarted = false ;
 
     public PlayVideoFile(int seconds) {
         this.SecofPlay = seconds;
@@ -61,10 +62,11 @@ public class PlayVideoFile implements Runnable {
             f.setSize(320, 240);
 
             f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	    this.videoStarted = true ;
 
+                long time = System.nanoTime();
             for (int k = 0; k < numFrames; k++) {
                 
-                long time = System.nanoTime();
                 
                 fis.read(r_pix, 0, Height * Width);
                 fis.read(g_pix, 0, Height * Width);
@@ -83,13 +85,16 @@ public class PlayVideoFile implements Runnable {
                 long miliTime = time/1000000;
                 int nanoTime = (int)time%1000000;
                 miliTime = 41 - miliTime;
-                nanoTime = 666667 - nanoTime;
+                nanoTime = 966667 - nanoTime;
+                if(nanoTime < 0){
+                    nanoTime = 1000000 + nanoTime;
+		    --miliTime ;
+		}
                 if(miliTime < 0 )
                     miliTime = 0;
-                if(nanoTime < 0)
-                    nanoTime = 0;
-                System.out.println("This much time it takes: "+ time +"miliTime: "+miliTime+"nanoTime: "+nanoTime);
-                Thread.currentThread().sleep(miliTime, nanoTime);
+//                System.out.println("This much time it takes: "+ time +"miliTime: "+miliTime+"nanoTime: "+nanoTime);
+                Thread.currentThread().sleep(miliTime , nanoTime );
+                time = System.nanoTime();
             }
 
         } catch (InterruptedException ex) {
