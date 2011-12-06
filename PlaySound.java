@@ -94,6 +94,12 @@ public class PlaySound implements Runnable {
             while (readBytes != -1) {
                 readBytes = audioInputStream.read(audioBuffer, 0,
                         audioBuffer.length);
+		try{
+		    while(PlayVideoFile.videoStarted == false){
+			Thread.currentThread().sleep(100,0) ;
+		    }
+		} catch (Exception e){
+		}
                 if (readBytes >= 0) {
                     dataLine.write(audioBuffer, 0, readBytes);
                 }
