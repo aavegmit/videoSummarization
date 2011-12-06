@@ -88,7 +88,7 @@ public class PlayVideoFile implements Runnable {
                     miliTime = 0;
                 if(nanoTime < 0)
                     nanoTime = 0;
-                System.out.println("This much time it takes: "+ time +"miliTime: "+miliTime+"nanoTime: "+nanoTime);
+                //System.out.println("This much time it takes: "+ time +"miliTime: "+miliTime+"nanoTime: "+nanoTime);
                 Thread.currentThread().sleep(miliTime, nanoTime);
             }
 
