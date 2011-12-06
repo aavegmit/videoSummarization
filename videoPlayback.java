@@ -23,18 +23,17 @@ public class videoPlayback {
         String videoFileName = args[0];
         String audioFileName = args[1];
         
-        Thread playSoundThread = new Thread(new PlaySound(audioFileName));
+//        Thread playSoundThread = new Thread(new PlaySound(audioFileName));
         Thread playVideoThread = new Thread(new PlayVideoFile(videoFileName));
         
-        playSoundThread.start();
-        playVideoThread.start();
+//        playSoundThread.start();
 
-        try {
-            //delay for one second
-            //Thread.sleep(500000);
-            playSoundThread.join();
-            playVideoThread.join();
-            System.out.println("Main exiting..");
+	try {
+	    playVideoThread.start();
+	    Thread.sleep(1) ;
+	    PlaySound ob = new PlaySound(audioFileName) ;
+	    ob.AudioRun() ;
+	    System.out.println("Main exiting..");
         } catch (InterruptedException e) {
         }
     }

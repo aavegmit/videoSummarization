@@ -39,8 +39,11 @@ public class PlaySound implements Runnable {
         curPosition = Position.NORMAL;
     }
 
-    @Override
-    public void run() {
+	public void run(){
+	}
+
+
+    public void AudioRun() {
 
         AudioInputStream audioInputStream = null;
         try {
